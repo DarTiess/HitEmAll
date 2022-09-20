@@ -16,7 +16,7 @@ namespace MLSpace
         [Tooltip("Rate of fire.")]
         public float shootInterval = 4.0f;
 
-        private float m_CurrentShootTime = 0.0f;            // current shoot time
+        private float m_CurrentShootTime = 5.0f;            // current shoot time
         private float m_CurrentShootScaleTarget = 1.0f;     // current projectile ball scale target
         private ScaleBallModes m_ScaleBallMode =
                 ScaleBallModes.None;                        // current state when shooting scale balls
@@ -25,7 +25,7 @@ namespace MLSpace
         void LateUpdate()
         {
 #if DEBUG_INFO
-            if (!ProjectilePrefab)
+            if (!ProjectilePrefab[0])
             {
                 Debug.LogError("ProjectilePrefab cannot be null.");
                 return;

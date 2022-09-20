@@ -92,7 +92,7 @@ namespace MLSpace
         /// <summary>
         /// gets owner object of projectile
         /// </summary>
-        public GameObject Owner { get { return m_Owner; } }
+        public GameObject Owner { get { return m_Owner; }  set { m_Owner = value; } }
 
         /// <summary>
         /// gets reference to rigidbody component
@@ -352,12 +352,12 @@ namespace MLSpace
         /// destroys ball projectile and decrements counter
         /// </summary>
         /// <param name="ball"></param>
-        public static void DestroyBall(BallProjectile ball)
+       public static void DestroyBall(BallProjectile ball)
         {
             if (!ball) return;
 
             BallProjectile.BallCount--;
-            Destroy(ball.gameObject);
+         
         }
 
 

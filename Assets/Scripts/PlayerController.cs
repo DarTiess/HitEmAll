@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
    [SerializeField] private StatesPoints states;
     [SerializeField] private float timerToMove;
-    private float time = 0;
+    private float time;
     [SerializeField] private float distanceToChangeGoal;
    
     private int indexState;
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
         navMesh = GetComponent<NavMeshAgent>();
         animator = GetComponent<AnimatorController>();
         navMesh.speed = walkSpeed;
-      
+        time = timerToMove;
         GameManager.Instance.IsGaming += PlayGame;
     }
 
@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
                 navMesh.isStopped = true;
                 //поворот к врагу/врагам
                 //прицел на врага
+                GameManager.Instance.Fire();
                 // по тапу fire
             }
         }

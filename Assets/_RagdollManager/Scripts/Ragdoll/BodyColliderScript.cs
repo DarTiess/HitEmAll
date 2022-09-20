@@ -35,7 +35,8 @@ namespace MLSpace
             if (gameObject.CompareTag("DeadNPC") && collision.gameObject.CompareTag("Ground"))
             {
                 Debug.Log("OnGround");
-              //  gameObject.GetComponentInParent<EnemyController>().ONGroundPelvis(gameObject);
+               // gameObject.GetComponentInParent<EnemyController>().TakeDamage(8);
+               // gameObject.GetComponentInParent<EnemyController>().ONGroundPelvis();
                 gameObject.tag = "Untagged";
             }
         }

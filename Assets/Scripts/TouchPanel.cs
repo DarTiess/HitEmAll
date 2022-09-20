@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TouchPanel : MonoBehaviour, IPointerClickHandler
+public class TouchPanel : MonoBehaviour, IPointerClickHandler, IPointerUpHandler, IPointerDownHandler
 {
     bool isStarted;
     [SerializeField] private GameObject startingText;
@@ -16,17 +16,22 @@ public class TouchPanel : MonoBehaviour, IPointerClickHandler
             isStarted = true;
             startingText.SetActive(false);
         }
+        else
+        {
+          
+          
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        
+        MLSpace.PlayerShootScript.Instance.CreateBall();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        
+        MLSpace.PlayerShootScript.Instance.FireBall();
     }
+
+  
 }

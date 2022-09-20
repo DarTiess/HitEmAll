@@ -10,26 +10,59 @@ namespace MLSpace
     {
         public static PlayerShootScript Instance { get; private set; }
         [HideInInspector] public bool canShoot;
+        public float maxBallScale;
+        public float speedScale;
 
         private void Awake()
         {
             Instance = this;
+        }
+        private void Start()
+        {
+            GameManager.Instance.OnFire += StartFire;
+            GameManager.Instance.OnMove += StopFire;
         }
         // Update is called once per frame
         void LateUpdate()
         {
 #if DEBUG_INFO
 
-            if (!ProjectilePrefab)
+            if (ProjectilePrefab.Count<=0)
             {
                 Debug.LogError("ProjectilePrefab cannot be null.");
                 return;
             }
 #endif
-            Shooting();
+           // Shooting();
             
         }
+        void StartFire()
+        {
+            canShoot = true;
+        } 
+        
+        void StopFire()
+        {
+            canShoot = false;
+        }
 
+        public void CreateBall()
+        {
+            if (canShoot) {
+                if (m_DisableShooting) return;
+                createBall();
+            }
+               
+        }
+
+        public void FireBall()
+        {
+            if (canShoot)
+            {
+                fireBall();
+               
+            }
+        }
         public void Shooting()
         {
             if (canShoot)
@@ -40,16 +73,20 @@ namespace MLSpace
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
-                      //  SoundManager.Instance.PlaySound(SoundManager.Sound.PlayerAttack);
-                        createBall();
+                          createBall();
+
+                        //getFrom pull
+                      
                     }
                     if (Input.GetButton("Fire1"))
                     {
-                        scaleBall();
+                      // ProjectilePrefab.GetComponent<InflatableBall>().maxBall = maxBallScale;
+                      // ProjectilePrefab.GetComponent<InflatableBall>().inflateVal = speedScale;
+                       // scaleBall();
                     }
                     if (Input.GetButtonUp("Fire1"))
                     {
-                      //  SoundManager.Instance.PlaySound(SoundManager.Sound.PlayerAttack);
+                      
                         fireBall();
                     }
                 }
@@ -57,7 +94,6 @@ namespace MLSpace
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
-                      //  SoundManager.Instance.PlaySound(SoundManager.Sound.PlayerAttackBubble);
                         createBall();
                         fireBall();
                     }
@@ -70,5 +106,7 @@ namespace MLSpace
             }
            
         }
+     
+     
     }
 }

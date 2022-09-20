@@ -128,13 +128,13 @@ namespace MLSpace
             {
 #if DEBUG_INFO
                 if (!m_PlayersShootScript) { Debug.LogError("object cannot be null."); return; }
-                if(!m_PlayersShootScript.ProjectilePrefab) { Debug.LogError("object cannot be null."); return; }
+                if(!m_PlayersShootScript.ProjectilePrefab[0]) { Debug.LogError("object cannot be null."); return; }
 #endif
-                if (m_PlayersShootScript.ProjectilePrefab is SoapBallProjectile)
+                if (m_PlayersShootScript.ProjectilePrefab[0] is SoapBallProjectile)
                     PlayerInfoText.text = "Current Ammunition: SoapBuble Ball";
-                else if (m_PlayersShootScript.ProjectilePrefab is RocketBallProjectile)
+                else if (m_PlayersShootScript.ProjectilePrefab[0] is RocketBallProjectile)
                     PlayerInfoText.text = "Current Ammunition: Rocket Ball";
-                else if (m_PlayersShootScript.ProjectilePrefab is HarpoonBallProjectile)
+                else if (m_PlayersShootScript.ProjectilePrefab[0] is HarpoonBallProjectile)
                     PlayerInfoText.text = "Current Ammunition: Harpoon Ball";
                 else PlayerInfoText.text = "Current Ammunition: Inflatable Ball";
             }

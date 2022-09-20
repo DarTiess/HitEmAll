@@ -55,7 +55,7 @@ namespace MLSpace
             ShootScript shootScript = _collider.gameObject.GetComponent<ShootScript>();
             if (shootScript == null)
                 return;
-            shootScript.ProjectilePrefab = ball_prefab;
+            shootScript.ProjectilePrefab[0] = ball_prefab;
         }
     }
 

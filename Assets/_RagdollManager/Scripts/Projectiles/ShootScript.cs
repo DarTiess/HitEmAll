@@ -1,4 +1,5 @@
 ﻿// © 2016 Mario Lelas
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MLSpace
@@ -10,8 +11,8 @@ namespace MLSpace
     public class ShootScript : MonoBehaviour
     {
         [Tooltip ("Shoot projectile prefab")]
-        public BallProjectile ProjectilePrefab;
-
+        public List<BallProjectile> ProjectilePrefab;
+        int indexProjectille = 0;
         [Tooltip ("Projectile fire position and shoot direction.")]
         public Transform FireTransform;
 
@@ -28,7 +29,7 @@ namespace MLSpace
         void Start()
         {
 
-            if (!ProjectilePrefab) { Debug.LogError("projectile prefab not assigned."); return; }
+            if (ProjectilePrefab.Count<=0) { Debug.LogError("projectile prefab not assigned."); return; }
             if (!FireTransform) { Debug.LogError("fire transform not assign."); return; }
 
         }
@@ -36,7 +37,14 @@ namespace MLSpace
         // create ball projectile function
         protected virtual void createBall()
         {
-            m_CurrentBall = BallProjectile.CreateBall(ProjectilePrefab, FireTransform, Owner);
+            if (indexProjectille >= ProjectilePrefab.Count)
+            {
+                indexProjectille = 0;
+            }
+            m_CurrentBall =ProjectilePrefab[indexProjectille];
+            m_CurrentBall.Owner = Owner;
+            m_CurrentBall.transform.position = FireTransform.position;
+            m_CurrentBall.gameObject.SetActive(true);
             if (!m_CurrentBall.Initialize()) { Debug.LogError("cannot initialize ball projectile"); return; }
 
             m_CurrentBall.OnLifetimeExpire = BallProjectile.DestroyBall;
@@ -55,6 +63,8 @@ namespace MLSpace
                 HarpoonBallProjectile.Setup(thisBall as HarpoonBallProjectile);
             else
                 InflatableBall.Setup(thisBall as InflatableBall);
+
+            indexProjectille++;
         }
 
         // scale current ball

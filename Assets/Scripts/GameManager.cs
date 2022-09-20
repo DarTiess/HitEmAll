@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public event Action IsStarting;
     public event Action IsGaming;
+    public event Action OnFire;
+    public event Action OnMove;
     public event Action OnPause;
     public event Action IsFail;
     public event Action IsWin;
@@ -33,6 +35,15 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         IsGaming?.Invoke();
+    }
+    public void Fire()
+    {
+        OnFire?.Invoke();
+    } 
+    
+    public void Move()
+    {
+        OnMove?.Invoke();
     }
 
     public void FailGame()
