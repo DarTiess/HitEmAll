@@ -18,14 +18,15 @@ public class PlayerController : MonoBehaviour
    
     private int indexState;
     private Points _statesPoint;
- 
+    [HideInInspector] public bool last;
 
     void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
         animator = GetComponent<AnimatorController>();
         navMesh.speed = walkSpeed;
-        move = true;
+      
+        GameManager.Instance.IsGaming += PlayGame;
     }
 
     // Update is called once per frame
@@ -51,7 +52,11 @@ public class PlayerController : MonoBehaviour
         animator.MoveAnimation(navMesh.velocity.magnitude / navMesh.speed);
     }
 
-    [HideInInspector] public bool last;
+    private void PlayGame()
+    {
+        move = true;
+    }
+
     protected void GetNextTarget()
     {
         if (!last)
