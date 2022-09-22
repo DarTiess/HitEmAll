@@ -18,17 +18,14 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
     }
-    // Start is called before the first frame update
+   
     void Start()
     {
         StartGame();
     }
 
-    // Update is called once per frame
-
     public void StartGame()
     {
-      //  Time.timeScale = 0;
         IsStarting?.Invoke();
     }
 

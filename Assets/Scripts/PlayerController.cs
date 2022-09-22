@@ -79,10 +79,8 @@ public class PlayerController : MonoBehaviour
                 navMesh.isStopped = true;
                 RotateToEnemy();
                
-                //поворот к врагу/врагам
-                //прицел на врага
                 GameManager.Instance.Fire();
-                // по тапу fire
+            
             }
         }
         else
@@ -114,5 +112,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         move = true;
         navMesh.isStopped = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            GameManager.Instance.RestartDisplay();
+        }
     }
 }

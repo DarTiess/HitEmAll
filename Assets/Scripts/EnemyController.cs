@@ -2,17 +2,20 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
      private Animator animator;
-   
+    NavMeshAgent navMesh;
     [SerializeField] private int health;
     Rigidbody[] rigidbodies;
    [HideInInspector]public bool onRagdoll;
     GameObject player;
-
+    [SerializeField] private float speed;
     [SerializeField] private HeathBar heathBar;
+  
+    bool move;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,18 @@ public class EnemyController : MonoBehaviour
         SwitchRagdoll(true);
         player = GameObject.Find("CharMain");
         heathBar.SetMaxValus(health);
+        navMesh = GetComponent<NavMeshAgent>();
+        navMesh.speed = speed;
+       
+    }
+
+
+    private void Update()
+    {
+        if (move)
+        {
+            navMesh.SetDestination(player.transform.position);
+        }
     }
 
     void SwitchRagdoll(bool onAnimator)
@@ -32,10 +47,18 @@ public class EnemyController : MonoBehaviour
         }
         animator.enabled = onAnimator;
 
-        if (onAnimator)
+        if (move)
         {
-            RandomAnimation();
+            animator.SetBool("Move", true);
         }
+        else
+        {
+            if (onAnimator)
+            {
+                RandomAnimation();
+            }
+        }
+      
     }
     void SwitchRagdoll(bool onAnimator, Rigidbody partBody)
     {
@@ -45,21 +68,20 @@ public class EnemyController : MonoBehaviour
         partBody.velocity = force;
         animator.enabled = onAnimator;
 
-        if (onAnimator)
-        {
-            RandomAnimation();
-        }
+        animator.SetBool("Move", true);
+
     }
 
     IEnumerator GetUp()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         SwitchRagdoll(true);
     }
 
     void RandomAnimation()
     {
         int rndAnim = Random.Range(0, 2);
+        animator.SetInteger("numAnim", rndAnim);
 
     }
    public void TakeDamage(Rigidbody partBody)
@@ -70,12 +92,14 @@ public class EnemyController : MonoBehaviour
             return;
         }
         health=health-1;
+        move = true;
         heathBar.SetValues(1f, 0.5f);
         RotateToPlayer();
         
         if (health <= 0)
         {
             SwitchRagdoll(false);
+            navMesh.isStopped = true;
             heathBar.SetOffSlider();
             EnemySpawner.Instance.HitEnemy();
         }
