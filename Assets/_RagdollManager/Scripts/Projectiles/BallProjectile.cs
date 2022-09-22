@@ -183,7 +183,7 @@ namespace MLSpace
                     }
                     else
                     {
-                        Destroy(this.gameObject);
+                       // Destroy(this.gameObject);
                     }
                     return;
                 }

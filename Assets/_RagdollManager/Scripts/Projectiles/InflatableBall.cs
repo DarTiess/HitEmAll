@@ -85,7 +85,9 @@ namespace MLSpace
                     if (ragMan.gameObject.CompareTag("NPC"))
                     {
                         Debug.Log("Had Touch Bot");
-                       // ragMan.GetComponent<EnemyController>().TakeDamage(ball.m_CurrentBallScale);
+                        // ragMan.GetComponent<EnemyController>().TakeDamage(ball.m_CurrentBallScale);
+
+                        EnemySpawner.Instance.HitEnemy();
                       ball.gameObject.SetActive(false);
                       
                     }

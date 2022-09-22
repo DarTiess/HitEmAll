@@ -10,6 +10,12 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float _height = 2;
     [SerializeField] private float _heightDamping = 2;
     [SerializeField] private float _rotationDamping = 0.6f;
+
+    private void Start()
+    {
+       // GameManager.Instance.OnFire += MoveToFirePoint;
+      //  GameManager.Instance.OnMove += MoveFollow;
+    }
     private void LateUpdate()
     {
         MoveFollow();
@@ -35,5 +41,12 @@ public class CameraFollow : MonoBehaviour
         transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
 
         transform.LookAt(player.transform);
+    }
+
+    void MoveToFirePoint()
+    {
+        _distance = 0.2f;
+        _height = 0;
+
     }
 }

@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
         navMesh.speed = walkSpeed;
         time = timerToMove;
         GameManager.Instance.IsGaming += PlayGame;
+        GameManager.Instance.OnMove += CanMove;
+        GameManager.Instance.OnHit += RotateToEnemy;
     }
 
     // Update is called once per frame
@@ -75,6 +77,8 @@ public class PlayerController : MonoBehaviour
                 indexState += 1;
                 move = false;
                 navMesh.isStopped = true;
+                RotateToEnemy();
+               
                 //поворот к врагу/врагам
                 //прицел на врага
                 GameManager.Instance.Fire();
@@ -86,12 +90,25 @@ public class PlayerController : MonoBehaviour
             if (Vector3.Distance(transform.position, target.position) < distanceToChangeGoal)
             {
                 move = false;
-              
+                GameManager.Instance.RestartDisplay();
             }
 
         }
     }
 
+    void RotateToEnemy()
+    {
+
+        Transform enemyPos = EnemySpawner.Instance.EnemyForward();
+        var look = Quaternion.LookRotation(new Vector3(enemyPos.transform.position.x, transform.position.y, enemyPos.transform.position.z) - transform.position);
+
+        transform.DOLocalRotateQuaternion(look, 0.5f);
+    }
+
+    void CanMove()
+    {
+        StartCoroutine(ContinueMove());
+    }
     IEnumerator ContinueMove()
     {
         yield return new WaitForSeconds(2f);

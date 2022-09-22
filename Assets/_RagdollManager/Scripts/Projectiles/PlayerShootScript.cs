@@ -1,6 +1,6 @@
 ﻿// © 2016 Mario Lelas
 using UnityEngine;
-
+using DG.Tweening;
 
 
 namespace MLSpace
@@ -12,6 +12,7 @@ namespace MLSpace
         [HideInInspector] public bool canShoot;
         public float maxBallScale;
         public float speedScale;
+     
 
         private void Awake()
         {
@@ -22,6 +23,8 @@ namespace MLSpace
             GameManager.Instance.OnFire += StartFire;
             GameManager.Instance.OnMove += StopFire;
         }
+      
+    
         // Update is called once per frame
         void LateUpdate()
         {
@@ -33,7 +36,6 @@ namespace MLSpace
                 return;
             }
 #endif
-           // Shooting();
             
         }
         void StartFire()
@@ -59,54 +61,24 @@ namespace MLSpace
         {
             if (canShoot)
             {
-                fireBall();
-               
-            }
-        }
-        public void Shooting()
-        {
-            if (canShoot)
-            {
-                if (m_DisableShooting) return;
+              
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
-                if (ProjectilePrefab is InflatableBall)
+                if (Physics.Raycast(ray, out hit, 100000f))
                 {
-                    if (Input.GetButtonDown("Fire1"))
-                    {
-                          createBall();
-
-                        //getFrom pull
-                      
-                    }
-                    if (Input.GetButton("Fire1"))
-                    {
-                      // ProjectilePrefab.GetComponent<InflatableBall>().maxBall = maxBallScale;
-                      // ProjectilePrefab.GetComponent<InflatableBall>().inflateVal = speedScale;
-                       // scaleBall();
-                    }
-                    if (Input.GetButtonUp("Fire1"))
-                    {
-                      
-                        fireBall();
-                    }
+                    fireBall(hit.point);
                 }
                 else
                 {
-                    if (Input.GetButtonDown("Fire1"))
-                    {
-                        createBall();
-                        fireBall();
-                    }
+                    fireBall();
                 }
-                if (m_CurrentBall)
-                {
-                    if (m_CurrentBall.State == BallProjectile.ProjectileStates.Ready)
-                        m_CurrentBall.transform.position = FireTransform.position;
-                }
+
+                Debug.DrawLine(ray.origin, hit.point, Color.red);
+
             }
-           
         }
-     
+       
      
     }
 }

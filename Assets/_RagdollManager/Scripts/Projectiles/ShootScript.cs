@@ -1,7 +1,7 @@
 ﻿// © 2016 Mario Lelas
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 namespace MLSpace
 {
     /// <summary>
@@ -41,7 +41,8 @@ namespace MLSpace
             {
                 indexProjectille = 0;
             }
-            m_CurrentBall =ProjectilePrefab[indexProjectille];
+            //  m_CurrentBall =ProjectilePrefab[indexProjectille];
+            m_CurrentBall = BallProjectile.CreateBall(ProjectilePrefab[0], FireTransform, Owner);
             m_CurrentBall.Owner = Owner;
             m_CurrentBall.transform.position = FireTransform.position;
             m_CurrentBall.gameObject.SetActive(true);
@@ -53,7 +54,7 @@ namespace MLSpace
             m_CurrentBall.RigidBody.detectCollisions = true;
 
             BallProjectile thisBall = m_CurrentBall;
-
+            
 
             if (thisBall is SoapBallProjectile)
                 SoapBallProjectile.Setup(thisBall as SoapBallProjectile);
@@ -80,9 +81,19 @@ namespace MLSpace
         {
             if (!m_CurrentBall) { return; }
 
-            Vector3 force = FireTransform.forward * m_CurrentBall.hitStrength;
-            m_CurrentBall.RigidBody.velocity = force;
+              Vector3 force = FireTransform.forward * m_CurrentBall.hitStrength;
+              m_CurrentBall.RigidBody.velocity = force;
+           
             m_CurrentBall.transform.position = FireTransform.position;
+         
+            m_CurrentBall.State = BallProjectile.ProjectileStates.Fired;
+        } protected virtual void fireBall(Vector3 diference)
+        {
+            if (!m_CurrentBall) { return; }
+
+            float direction = Vector3.Distance(m_CurrentBall.transform.position, diference);
+          //  m_CurrentBall.transform.position = FireTransform.position;
+            m_CurrentBall.RigidBody.DOMove(diference, direction/20f);
             m_CurrentBall.State = BallProjectile.ProjectileStates.Fired;
         }
     } 

@@ -10,7 +10,7 @@ namespace MLSpace
     public class BodyColliderScript : ColliderScript
     {
         public bool critical = false;                   // you can apply additional damage if critial
-        public BodyParts bodyPart = BodyParts.None ;    // collider body part
+        public BodyParts bodyPart = BodyParts.None;    // collider body part
         public int index = -1;                          // index of collider
 
         [SerializeField, HideInInspector]
@@ -29,16 +29,6 @@ namespace MLSpace
             get { return m_ParentRagdollManager; }
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
+    }
 
-            if (gameObject.CompareTag("DeadNPC") && collision.gameObject.CompareTag("Ground"))
-            {
-                Debug.Log("OnGround");
-               // gameObject.GetComponentInParent<EnemyController>().TakeDamage(8);
-               // gameObject.GetComponentInParent<EnemyController>().ONGroundPelvis();
-                gameObject.tag = "Untagged";
-            }
-        }
-    } 
 }

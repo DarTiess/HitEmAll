@@ -2,16 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public event Action IsStarting;
     public event Action IsGaming;
     public event Action OnFire;
+    public event Action OnHit;
     public event Action OnMove;
     public event Action OnPause;
-    public event Action IsFail;
-    public event Action IsWin;
+    public event Action OnRestart;
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -45,18 +46,18 @@ public class GameManager : MonoBehaviour
     {
         OnMove?.Invoke();
     }
-
-    public void FailGame()
+      public void Hit()
     {
-        IsFail?.Invoke();
+       OnHit?.Invoke();
+    }
+
+    public void RestartDisplay()
+    {
+        OnRestart?.Invoke();
         Time.timeScale = 0;
 
     }
-    public void WinGame()
-    {
-        IsWin?.Invoke();
-        Time.timeScale = 0;
-    }
+   
     public void PauseGame()
     {
         OnPause?.Invoke();
@@ -68,6 +69,9 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
