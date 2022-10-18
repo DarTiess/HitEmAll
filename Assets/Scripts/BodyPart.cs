@@ -17,8 +17,8 @@ public class BodyPart : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Fire") && !enemyParent.onRagdoll)
         {
-            collision.gameObject.tag = "Untagged";
-            enemyParent.TakeDamage(rbBody);
+           // collision.gameObject.SetActive(false);
+           enemyParent.TakeDamage(rbBody);
         }
     }
 }
