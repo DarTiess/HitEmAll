@@ -72,8 +72,8 @@ public class PlayerShooting : MonoBehaviour
             indexBullet = 0;
         }
           currentBall =bulletsList[indexBullet];
-        currentBall.tag = "Fire";
-
+     
+     
         currentBall.transform.position = firePlace.position;
        currentBall.gameObject.SetActive(true);
        indexBullet++;

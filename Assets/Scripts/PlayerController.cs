@@ -20,14 +20,12 @@ public class PlayerController : MonoBehaviour
     private Points _statesPoint;
     [HideInInspector] public bool last;
 
-    CapsuleCollider collider;
     void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
         animator = GetComponent<AnimatorController>();
         navMesh.speed = walkSpeed;
         time = timerToMove;
-        collider = GetComponent<CapsuleCollider>();
         GameManager.Instance.IsGaming += PlayGame;
         GameManager.Instance.OnMove += CanMove;
         GameManager.Instance.OnHit += RotateToEnemy;
@@ -80,7 +78,7 @@ public class PlayerController : MonoBehaviour
                 move = false;
                 navMesh.isStopped = true;
                 RotateToEnemy();
-                collider.isTrigger = false;
+               
                 GameManager.Instance.Fire();
             
             }
@@ -111,7 +109,6 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator ContinueMove()
     {
-        collider.isTrigger = true;
         yield return new WaitForSeconds(2f);
         move = true;
         navMesh.isStopped = false;
