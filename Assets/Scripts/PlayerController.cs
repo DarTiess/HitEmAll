@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(AnimatorController))]
-[RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour
 {
     private NavMeshAgent navMesh;
