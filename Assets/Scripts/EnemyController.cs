@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
      private Animator animator;
@@ -98,6 +100,11 @@ public class EnemyController : MonoBehaviour
         
         if (health <= 0)
         {
+            gameObject.tag = "Untagged";
+            foreach(Rigidbody rb in rigidbodies)
+            {
+                rb.gameObject.tag = "Untagged";
+            }
             SwitchRagdoll(false);
             navMesh.isStopped = true;
             heathBar.SetOffSlider();

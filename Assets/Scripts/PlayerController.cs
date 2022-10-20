@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+
+[RequireComponent(typeof(AnimatorController))]
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour
 {
     private NavMeshAgent navMesh;
@@ -10,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool move = false;
     private Transform target;
     [SerializeField] private float walkSpeed;
-
+    private CapsuleCollider collider;
    [SerializeField] private StatesPoints states;
     [SerializeField] private float timerToMove;
     private float time;
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<AnimatorController>();
         navMesh.speed = walkSpeed;
         time = timerToMove;
+        collider = GetComponent<CapsuleCollider>();
         GameManager.Instance.IsGaming += PlayGame;
         GameManager.Instance.OnMove += CanMove;
         GameManager.Instance.OnHit += RotateToEnemy;
@@ -78,7 +83,7 @@ public class PlayerController : MonoBehaviour
                 move = false;
                 navMesh.isStopped = true;
                 RotateToEnemy();
-               
+                collider.isTrigger = false;
                 GameManager.Instance.Fire();
             
             }
@@ -88,6 +93,7 @@ public class PlayerController : MonoBehaviour
             if (Vector3.Distance(transform.position, target.position) < distanceToChangeGoal)
             {
                 move = false;
+                
                 GameManager.Instance.RestartDisplay();
             }
 
@@ -109,16 +115,20 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator ContinueMove()
     {
+
+        collider.isTrigger = true;
         yield return new WaitForSeconds(2f);
         move = true;
         navMesh.isStopped = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("NPC"))
+        if (other.gameObject.CompareTag("NPC"))
         {
+            Debug.Log("NPC");
             GameManager.Instance.RestartDisplay();
         }
     }
+  
 }
